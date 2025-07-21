@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controle Completo de Economias - Dashboard Avançado com Metas</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-5 shadow-md">
+  <h1 class="text-2xl font-semibold text-center">💰 Controle Completo de Economias</h1>
+</header>
+
+<main class="flex-grow max-w-5xl mx-auto p-6">
+  <!-- Abas -->
+  <nav class="mb-6 border-b border-gray-300 flex justify-center space-x-8" aria-label="Tabs" role="tablist">
+    <button id="tab-dashboard" aria-selected="true" role="tab" tabindex="0"
+      class="tab-btn pb-2 border-b-4 border-blue-700 font-semibold text-blue-700 focus:outline-none">
+      Dashboard
+    </button>
+    <button id="tab-lancamentos" aria-selected="false" role="tab" tabindex="-1"
+      class="tab-btn pb-2 border-b-4 border-transparent hover:border-blue-400 text-gray-600 hover:text-blue-700 focus:outline-none">
+      Lançamentos
+    </button>
+    <button id="tab-metas" aria-selected="false" role="tab" tabindex="-1"
+      class="tab-btn pb-2 border-b-4 border-transparent hover:border-blue-400 text-gray-600 hover:text-blue-700 focus:outline-none">
+      Metas Financeiras
+    </button>
+    <button id="tab-relatorios" aria-selected="false" role="tab" tabindex="-1"
+      class="tab-btn pb-2 border-b-4 border-transparent hover:border-blue-400 text-gray-600 hover:text-blue-700 focus:outline-none">
+      Relatórios
+    </button>
+  </nav>
+
+  <!-- Conteúdo das abas -->
+  <section id="dashboard" role="tabpanel" aria-labelledby="tab-dashboard" tabindex="0">
+    <!-- Filtro de período -->
+    <div class="max-w-md mx-auto mb-6 flex flex-col sm:flex-row items-center gap-4 justify-center">
+      <select id="filtroTipo" aria-label="Selecionar tipo de período"
+        class="p-2 border border-gray-300 rounded w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="mensal" selected>Mensal</option>
+        <option value="anual">Anual</option>
+      </select>
+      <input type="month" id="filtroMes" aria-label="Selecionar mês e ano"
+        class="p-2 border border-gray-300 rounded w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <input type="number" id="filtroAno" min="2000" max="2100" step="1" value=""
+        aria-label="Selecionar ano" class="p-2 border border-gray-300 rounded w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-500 hidden" />
+    </div>
+
+    <!-- Resumo -->
+    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8 max-w-4xl mx-auto text-center">
+      <div class="bg-white rounded shadow p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">Receitas</h3>
+        <p id="resumoReceitas" class="text-2xl font-bold text-green-600">R$ 0,00</p>
+      </div>
+      <div class="bg-white rounded shadow p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">Despesas</h3>
+        <p id="resumoDespesas" class="text-2xl font-bold text-red-600">R$ 0,00</p>
+      </div>
+      <div class="bg-white rounded shadow p-4">
+        <h3 class="font-semibold text-gray-700 mb-2">Saldo</h3>
+        <p id="resumoSaldo" class="text-2xl font-bold text-gray-800">R$ 0,00</p>
+      </div>
+      <div class="bg-white rounded shadow p-4 flex flex-col justify-center items-center">
+        <h3 class="font-semibold text-gray-700 mb-2">Meta Mensal</h3>
+        <p id="metaValor" class="text-xl font-semibold text-blue-700">—</p>
+        <p id="metaStatus" class="mt-1 font-semibold"></p>
+      </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div>
+        <h3 class="text-lg font-semibold mb-2 text-center">Despesas por Categoria</h3>
+        <canvas id="graficoDespesas" class="mx-auto max-w-full"></canvas>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2 text-center">Receitas por Categoria</h3>
+        <canvas id="graficoReceitas" class="mx-auto max-w-full"></canvas>
+      </div>
+    </div>
+
+    <div class="mt-10 max-w-5xl mx-auto">
+      <h3 class="text-lg font-semibold mb-2 text-center">Evolução Mensal (Receitas e Despesas)</h3>
+      <canvas id="graficoEvolucao" class="mx-auto max-w-full"></canvas>
+    </div>
+  </section>
+
+  <section id="lancamentos" role="tabpanel" aria-labelledby="tab-lancamentos" tabindex="0" hidden>
+    <h2 class="text-xl font-semibold mb-4">Adicionar Movimento</h2>
+    <form id="formMovimento" class="max-w-md mx-auto space-y-4">
+      <input type="text" id="descricao" placeholder="Descrição" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <input type="number" id="valor" placeholder="Valor (ex: 150.00)" min="0.01" step="0.01" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <select id="tipo" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled selected>Tipo</option>
+        <option value="receita">Receita</option>
+        <option value="despesa">Despesa</option>
+      </select>
+      <select id="categoria" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled selected>Categoria</option>
+        <option>Salário</option>
+        <option>Alimentação</option>
+        <option>Transporte</option>
+        <option>Lazer</option>
+        <option>Educação</option>
+        <option>Outros</option>
+      </select>
+      <input type="month" id="data" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button type="submit"
+        class="w-full bg-blue-700 text-white p-3 rounded hover:bg-blue-800 transition-colors font-semibold">Adicionar</button>
+    </form>
+
+    <h2 class="text-xl font-semibold mt-8 mb-4 text-center">Histórico de Movimentos</h2>
+    <div class="overflow-auto max-h-72 border rounded border-gray-300">
+      <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-100 sticky top-0">
+          <tr>
+            <th class="px-4 py-2 text-left">Descrição</th>
+            <th class="px-4 py-2 text-left">Valor</th>
+            <th class="px-4 py-2 text-left">Tipo</th>
+            <th class="px-4 py-2 text-left">Categoria</th>
+            <th class="px-4 py-2 text-left">Data</th>
+            <th class="px-4 py-2 text-center">Ação</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaMovimentos" class="divide-y divide-gray-100">
+          <!-- Dados inseridos via JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="metas" role="tabpanel" aria-labelledby="tab-metas" tabindex="0" hidden>
+    <h2 class="text-xl font-semibold mb-4 text-center">Gerenciar Metas Financeiras Mensais</h2>
+
+    <form id="formMeta" class="max-w-md mx-auto space-y-4">
+      <label for="metaMes" class="block font-semibold">Mês e Ano da Meta</label>
+      <input type="month" id="metaMes" required
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+      <label for="metaValor" class="block font-semibold">Valor da Meta (R$)</label>
+      <input type="number" id="metaValorInput" min="0" step="0.01" required
+        placeholder="Ex: 2000.00"
+        class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+      <button type="submit"
+        class="w-full bg-indigo-700 text-white p-3 rounded hover:bg-indigo-800 transition-colors font-semibold">
+        Adicionar / Atualizar Meta
+      </button>
+    </form>
+
+    <h3 class="text-lg font-semibold mt-8 mb-4 text-center">Metas Cadastradas</h3>
+    <div class="overflow-auto max-h-64 border rounded border-gray-300 max-w-lg mx-auto">
+      <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-100 sticky top-0">
+          <tr>
+            <th class="px-4 py-2 text-left">Mês/Ano</th>
+            <th class="px-4 py-2 text-left">Valor (R$)</th>
+            <th class="px-4 py-2 text-center">Ação</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaMetas" class="divide-y divide-gray-100">
+          <!-- Inserido por JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="relatorios" role="tabpanel" aria-labelledby="tab-relatorios" tabindex="0" hidden>
+    <h2 class="text-xl font-semibold mb-4 text-center">Exportar Relatórios</h2>
+    <div class="max-w-sm mx-auto space-y-4">
+      <button id="btnExportarPDF"
+        class="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded font-semibold transition-colors">Exportar
+        PDF</button>
+      <button id="btnResetarDados"
+        class="w-full bg-red-600 hover:bg-red-700 text-white p-3 rounded font-semibold transition-colors">Resetar
+        Dados</button>
+    </div>
+  </section>
+</main>
+
+<footer class="text-center text-gray-500 p-4 text-sm">
+  Desenvolvido por Zezinho 🚀
+</footer>
+
+<script>
+  // --- CONTROLE DE ABAS ---
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.setAttribute('aria-selected', 'false');
+        t.tabIndex = -1;
+        t.classList.remove('border-blue-700', 'text-blue-700', 'font-semibold');
+        t.classList.add('border-transparent', 'text-gray-600');
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.tabIndex = 0;
+      tab.classList.add('border-blue-700', 'text-blue-700', 'font-semibold');
+      tab.classList.remove('border-transparent', 'text-gray-600');
+
+      tabPanels.forEach(panel => panel.hidden = true);
+      const id = tab.id.replace('tab-', '');
+      document.getElementById(id).hidden = false;
+      document.getElementById(id).focus();
+    });
+  });
+
+  // --- ARMAZENAMENTO ---
+  let movimentos = JSON.parse(localStorage.getItem('movimentos')) || [];
+  let metas = JSON.parse(localStorage.getItem('metas')) || {};
+
+  // --- FORMULÁRIOS ---
+  const form = document.getElementById('formMovimento');
+  const descricaoInput = document.getElementById('descricao');
+  const valorInput = document.getElementById('valor');
+  const tipoInput = document.getElementById('tipo');
+  const categoriaInput = document.getElementById('categoria');
+  const dataInput = document.getElementById('data');
+  const tabelaCorpo = document.getElementById('tabelaMovimentos');
+
+  const formMeta = document.getElementById('formMeta');
+  const metaMesInput = document.getElementById('metaMes');
+  const metaValorInput = document.getElementById('metaValorInput');
+  const tabelaMetas = document.getElementById('tabelaMetas');
+
+  // --- INICIALIZAÇÕES ---
+  function inicializarData() {
+    if (!dataInput.value) {
+      const hoje = new Date();
+      const ano = hoje.getFullYear();
+      let mes = hoje.getMonth() + 1;
+      mes = mes < 10 ? '0' + mes : mes;
+      dataInput.value = `${ano}-${mes}`;
+    }
+  }
+  inicializarData();
+
+  // Inicializa filtros do dashboard
+  const filtroTipo = document.getElementById('filtroTipo');
+  const filtroMes = document.getElementById('filtroMes');
+  const filtroAno = document.getElementById('filtroAno');
+
+  function inicializarFiltros() {
+    const hoje = new Date();
+    let mes = hoje.getMonth() + 1;
+    mes = mes < 10 ? '0' + mes : mes;
+    filtroMes.value = `${hoje.getFullYear()}-${mes}`;
+    filtroAno.value = hoje.getFullYear();
+    filtroAno.hidden = true;
+  }
+  inicializarFiltros();
+
+  filtroTipo.addEventListener('change', () => {
+    if (filtroTipo.value === 'mensal') {
+      filtroMes.hidden = false;
+      filtroAno.hidden = true;
+    } else {
+      filtroMes.hidden = true;
+      filtroAno.hidden = false;
+    }
+    atualizarDashboard();
+  });
+
+  filtroMes.addEventListener('change', atualizarDashboard);
+  filtroAno.addEventListener('change', atualizarDashboard);
+
+  // --- FUNÇÕES ---
+  function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function salvarDados() {
+    localStorage.setItem('movimentos', JSON.stringify(movimentos));
+    localStorage.setItem('metas', JSON.stringify(metas));
+  }
+
+  function atualizarSaldo() {
+    const saldo = movimentos.reduce((acc, mov) => {
+      return mov.tipo === 'receita' ? acc + mov.valor : acc - mov.valor;
+    }, 0);
+    const saldoEl = document.getElementById('saldo');
+    if (saldoEl) saldoEl.textContent = formatarMoeda(saldo);
+  }
+
+  function renderizarTabela() {
+    tabelaCorpo.innerHTML = '';
+    movimentos.slice().reverse().forEach((mov, idx) => {
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td class="px-4 py-2">${mov.descricao}</td>
+        <td class="px-4 py-2">${mov.tipo === 'receita' ? '+' : '-'} ${formatarMoeda(mov.valor)}</td>
+        <td class="px-4 py-2 capitalize">${mov.tipo}</td>
+        <td class="px-4 py-2">${mov.categoria}</td>
+        <td class="px-4 py-2">${mov.data}</td>
+        <td class="px-4 py-2 text-center">
+          <button class="text-red-600 hover:text-red-800 font-bold" onclick="removerMovimento(${movimentos.length - 1 - idx})" aria-label="Remover movimento ${mov.descricao}">✖</button>
+        </td>
+      `;
+
+      tabelaCorpo.appendChild(tr);
+    });
+  }
+
+  function adicionarMovimento(event) {
+    event.preventDefault();
+
+    const descricao = descricaoInput.value.trim();
+    const valor = parseFloat(valorInput.value);
+    const tipo = tipoInput.value;
+    const categoria = categoriaInput.value;
+    const data = dataInput.value;
+
+    if (!descricao || !tipo || !categoria || !data || isNaN(valor) || valor <= 0) {
+      alert('Por favor, preencha todos os campos corretamente.');
+      return;
+    }
+
+    movimentos.push({ descricao, valor, tipo, categoria, data });
+    salvarDados();
+    atualizarSaldo();
+    renderizarTabela();
+    atualizarDashboard();
+    form.reset();
+    inicializarData();
+  }
+
+  function removerMovimento(index) {
+    if (confirm('Deseja remover este movimento?')) {
+      movimentos.splice(index, 1);
+      salvarDados();
+      atualizarSaldo();
+      renderizarTabela();
+      atualizarDashboard();
+    }
+  }
+
+  // --- FUNÇÕES DE METAS ---
+  function renderizarMetas() {
+    tabelaMetas.innerHTML = '';
+    // metas é um objeto { "2025-07": valor, "2025-08": valor }
+    const keysOrdenadas = Object.keys(metas).sort((a, b) => a.localeCompare(b));
+    if (keysOrdenadas.length === 0) {
+      tabelaMetas.innerHTML = `<tr><td colspan="3" class="text-center py-3 text-gray-500">Nenhuma meta cadastrada.</td></tr>`;
+      return;
+    }
+
+    keysOrdenadas.forEach(mesAno => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-4 py-2">${mesAno}</td>
+        <td class="px-4 py-2">${formatarMoeda(metas[mesAno])}</td>
+        <td class="px-4 py-2 text-center">
+          <button class="text-red-600 hover:text-red-800 font-bold" aria-label="Remover meta ${mesAno}" onclick="removerMeta('${mesAno}')">✖</button>
+        </td>
+      `;
+      tabelaMetas.appendChild(tr);
+    });
+  }
+
+  function adicionarOuAtualizarMeta(event) {
+    event.preventDefault();
+
+    const mesAno = metaMesInput.value;
+    const valorMeta = parseFloat(metaValorInput.value);
+
+    if (!mesAno) {
+      alert('Selecione o mês e ano da meta.');
+      return;
+    }
+    if (isNaN(valorMeta) || valorMeta < 0) {
+      alert('Informe um valor válido para a meta.');
+      return;
+    }
+
+    metas[mesAno] = valorMeta;
+    salvarDados();
+    renderizarMetas();
+    atualizarDashboard();
+    formMeta.reset();
+  }
+
+  function removerMeta(mesAno) {
+    if (confirm(`Deseja remover a meta de ${mesAno}?`)) {
+      delete metas[mesAno];
+      salvarDados();
+      renderizarMetas();
+      atualizarDashboard();
+    }
+  }
+
+  // --- DASHBOARD E GRÁFICOS ---
+  let chartDespesas, chartReceitas, chartEvolucao;
+
+  function calcularTotais(periodo) {
+    let receita = 0, despesa = 0;
+
+    movimentos.forEach(mov => {
+      if (periodo.tipo === 'mensal') {
+        if (mov.data === periodo.mes) {
+          if (mov.tipo === 'receita') receita += mov.valor;
+          else despesa += mov.valor;
+        }
+      } else if (periodo.tipo === 'anual') {
+        if (mov.data.startsWith(periodo.ano)) {
+          if (mov.tipo === 'receita') receita += mov.valor;
+          else despesa += mov.valor;
+        }
+      }
+    });
+
+    return { receita, despesa, saldo: receita - despesa };
+  }
+
+  function agruparPorCategoria(tipo, periodo) {
+    const resultado = {};
+
+    movimentos.forEach(mov => {
+      if (mov.tipo !== tipo) return;
+      if (periodo.tipo === 'mensal' && mov.data !== periodo.mes) return;
+      if (periodo.tipo === 'anual' && !mov.data.startsWith(periodo.ano)) return;
+
+      resultado[mov.categoria] = (resultado[mov.categoria] || 0) + mov.valor;
+    });
+
+    return resultado;
+  }
+
+  function dadosEvolucao(ano) {
+    const meses = Array.from({ length: 12 }, (_, i) => i + 1);
+    const labels = meses.map(m => m.toString().padStart(2, '0'));
+    const receitasMensais = meses.map(m => {
+      const mesStr = `${ano}-${m.toString().padStart(2, '0')}`;
+      return movimentos.filter(mov => mov.tipo === 'receita' && mov.data === mesStr)
+        .reduce((acc, mov) => acc + mov.valor, 0);
+    });
+    const despesasMensais = meses.map(m => {
+      const mesStr = `${ano}-${m.toString().padStart(2, '0')}`;
+      return movimentos.filter(mov => mov.tipo === 'despesa' && mov.data === mesStr)
+        .reduce((acc, mov) => acc + mov.valor, 0);
+    });
+
+    return { labels, receitasMensais, despesasMensais };
+  }
+
+  function atualizarDashboard() {
+    let periodo;
+    if (filtroTipo.value === 'mensal') {
+      periodo = { tipo: 'mensal', mes: filtroMes.value };
+    } else {
+      periodo = { tipo: 'anual', ano: filtroAno.value.toString() };
+    }
+
+    const totais = calcularTotais(periodo);
+
+    document.getElementById('resumoReceitas').textContent = formatarMoeda(totais.receita);
+    document.getElementById('resumoDespesas').textContent = formatarMoeda(totais.despesa);
+    const saldoElem = document.getElementById('resumoSaldo');
+    saldoElem.textContent = formatarMoeda(totais.saldo);
+    saldoElem.className = totais.saldo >= 0
+      ? 'text-2xl font-bold text-green-600'
+      : 'text-2xl font-bold text-red-600';
+
+    // Mostrar Meta Mensal (apenas no filtro mensal)
+    const metaValorElem = document.getElementById('metaValor');
+    const metaStatusElem = document.getElementById('metaStatus');
+    if (periodo.tipo === 'mensal') {
+      const meta = metas[periodo.mes];
+      if (meta !== undefined) {
+        metaValorElem.textContent = formatarMoeda(meta);
+        if (totais.receita >= meta) {
+          metaStatusElem.textContent = 'Meta atingida ✅';
+          metaStatusElem.className = 'mt-1 font-semibold text-green-700';
+        } else {
+          metaStatusElem.textContent = 'Meta não atingida ❌';
+          metaStatusElem.className = 'mt-1 font-semibold text-red-700';
+        }
+      } else {
+        metaValorElem.textContent = '—';
+        metaStatusElem.textContent = '';
+      }
+    } else {
+      metaValorElem.textContent = '—';
+      metaStatusElem.textContent = '';
+    }
+
+    // Atualiza gráficos categorias
+    const despesas = agruparPorCategoria('despesa', periodo);
+    const receitas = agruparPorCategoria('receita', periodo);
+
+    const cores = ['#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#10b981', '#6366f1', '#f43f5e'];
+
+    // Despesas
+    const ctxDespesas = document.getElementById('graficoDespesas').getContext('2d');
+    if (chartDespesas) chartDespesas.destroy();
+    chartDespesas = new Chart(ctxDespesas, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(despesas),
+        datasets: [{
+          data: Object.values(despesas),
+          backgroundColor: cores.slice(0, Object.keys(despesas).length),
+          hoverOffset: 20
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: { display: true, text: 'Despesas por Categoria' }
+        }
+      }
+    });
+
+    // Receitas
+    const ctxReceitas = document.getElementById('graficoReceitas').getContext('2d');
+    if (chartReceitas) chartReceitas.destroy();
+    chartReceitas = new Chart(ctxReceitas, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(receitas),
+        datasets: [{
+          label: 'Receitas',
+          data: Object.values(receitas),
+          backgroundColor: '#22c55e'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Receitas por Categoria' }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Evolução mensal (apenas para ano selecionado)
+    if (filtroTipo.value === 'anual') {
+      const ctxEvolucao = document.getElementById('graficoEvolucao').getContext('2d');
+      if (chartEvolucao) chartEvolucao.destroy();
+
+      const dados = dadosEvolucao(filtroAno.value);
+      chartEvolucao = new Chart(ctxEvolucao, {
+        type: 'line',
+        data: {
+          labels: dados.labels,
+          datasets: [
+            {
+              label: 'Receitas',
+              data: dados.receitasMensais,
+              borderColor: '#22c55e',
+              backgroundColor: 'rgba(34,197,94,0.2)',
+              fill: true,
+              tension: 0.3
+            },
+            {
+              label: 'Despesas',
+              data: dados.despesasMensais,
+              borderColor: '#ef4444',
+              backgroundColor: 'rgba(239,68,68,0.2)',
+              fill: true,
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: `Evolução Mensal de Receitas e Despesas - ${filtroAno.value}` }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+      document.getElementById('graficoEvolucao').parentElement.style.display = 'block';
+    } else {
+      document.getElementById('graficoEvolucao').parentElement.style.display = 'none';
+    }
+  }
+
+  // --- EXPORTAÇÃO PDF ---
+  async function importarJSPDF() {
+    return new Promise((resolve, reject) => {
+      if (window.jspdf) return resolve();
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      script.onload = () => resolve();
+      script.onerror = () => reject('Falha ao carregar jsPDF');
+      document.head.appendChild(script);
+    });
+  }
+
+  document.getElementById('btnExportarPDF').addEventListener('click', async () => {
+    if (!window.jspdf) {
+      await importarJSPDF();
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('Relatório de Movimentos Financeiros', 14, 22);
+    doc.setFontSize(12);
+
+    let y = 32;
+    if (movimentos.length === 0) {
+      doc.text('Nenhum movimento registrado.', 14, y);
+    } else {
+      movimentos.forEach(mov => {
+        const linha = `${mov.tipo.toUpperCase()} | ${formatarMoeda(mov.valor)} | ${mov.descricao} | ${mov.categoria} | ${mov.data}`;
+        doc.text(linha, 14, y);
+        y += 8;
+        if (y > 280) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+    }
+
+    doc.save('relatorio_economias.pdf');
+  });
+
+  // Resetar dados
+  document.getElementById('btnResetarDados').addEventListener('click', () => {
+    if (confirm('Tem certeza que deseja apagar TODOS os dados? Essa ação não pode ser desfeita.')) {
+      movimentos = [];
+      metas = {};
+      salvarDados();
+      atualizarSaldo();
+      renderizarTabela();
+      renderizarMetas();
+      atualizarDashboard();
+    }
+  });
+
+  // --- INICIALIZAÇÕES ---
+  atualizarSaldo();
+  renderizarTabela();
+  renderizarMetas();
+  atualizarDashboard();
+
+  // Eventos dos formulários
+  form.addEventListener('submit', adicionarMovimento);
+  formMeta.addEventListener('submit', adicionarOuAtualizarMeta);
+
+  // Função global para remover meta (necessária no HTML inline)
+  window.removerMeta = removerMeta;
+  // Função global para remover movimento (necessária no HTML inline)
+  window.removerMovimento = removerMovimento;
+
+</script>
+
+</body>
+</html>

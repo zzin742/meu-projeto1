@@ -1,0 +1,256 @@
+<!-- CÓDIGO COMPLETO DO SITE COM PROJETOS DIVERSIFICADOS -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfólio de José Henrique Teixeira - Departamento Pessoal e Desenvolvimento de Sistemas">
+  <title>José Henrique Teixeira | Portfólio</title>
+  <style>
+    :root {
+      --primary-color: #0077b6;
+      --secondary-color: #00b4d8;
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --header-bg: #0077b6;
+      --button-hover: #023e8a;
+    }
+    [data-theme="dark"] {
+      --primary-color: #90e0ef;
+      --secondary-color: #00b4d8;
+      --background-color: #121212;
+      --text-color: #e0e0e0;
+      --header-bg: #03045e;
+      --button-hover: #0077b6;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      background-color: var(--header-bg);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: bold;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li a, #toggleTheme {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    nav ul li a:hover, #toggleTheme:hover {
+      color: var(--secondary-color);
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .home {
+      text-align: center;
+      padding-top: 6rem;
+    }
+    h1, h2, h3 {
+      color: var(--primary-color);
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background-color: var(--primary-color);
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: var(--button-hover);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0px 8px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+    }
+    footer {
+      background-color: var(--header-bg);
+      text-align: center;
+      color: #fff;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+    }
+    form {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 600px;
+    }
+    input, textarea {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button[type="submit"] {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button[type="submit"]:hover {
+      background-color: var(--button-hover);
+    }
+    .contato-list {
+      list-style: none;
+      margin-top: 1rem;
+      padding: 0;
+    }
+    .contato-list li {
+      margin-bottom: 1rem;
+    }
+    .contato-list a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .contato-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">José Henrique</div>
+    <nav>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><button id="toggleTheme">🌙</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="home">
+    <h1>Olá, eu sou José Henrique!</h1>
+    <p>Profissional de Departamento Pessoal e estudante de Desenvolvimento de Sistemas.<br> 
+    Apaixonado por unir tecnologia e gestão para transformar resultados!</p>
+    <a href="#contato" class="btn">Entre em Contato</a>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre Mim</h2>
+    <p>Com ampla experiência em Departamento Pessoal, pró-labore e gestão de processos administrativos, estou sempre em busca de inovar e aplicar tecnologia no cotidiano da contabilidade.
+    Atualmente cursando Análise e Desenvolvimento de Sistemas, desenvolvo soluções práticas como planilhas, sites internos e ferramentas automatizadas que otimizam tarefas rotineiras e aumentam a produtividade.</p>
+  </section>
+
+  <section id="projetos">
+    <h2>Projetos Recentes</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Organizador de Recálculos</h3>
+        <p>Planilha inteligente que gerencia recálculos de DCTFWeb, FGTS e serviços extras no DP, conectando ao setor financeiro.</p>
+      </div>
+      <div class="card">
+        <h3>Site de Lembretes - DP</h3>
+        <p>Aplicativo web para controle de lembretes e prazos trabalhistas, aumentando a eficiência na rotina do Departamento Pessoal.</p>
+      </div>
+      <div class="card">
+        <h3>Automatização de Relatórios</h3>
+        <p>Script que gera relatórios mensais de folha de pagamento automaticamente a partir de dados do eSocial.</p>
+      </div>
+      <!-- NOVOS PROJETOS ADICIONADOS -->
+      <div class="card">
+        <h3>App de Tarefas Pessoais</h3>
+        <p>Aplicativo simples para gestão de tarefas diárias com funcionalidades de notificação, ajudando na organização pessoal.</p>
+      </div>
+      <div class="card">
+        <h3>Gestor de Estoque Online</h3>
+        <p>Sistema para controlar o estoque de produtos em tempo real, com funcionalidades para cadastro de novos itens e geração de relatórios.</p>
+      </div>
+      <div class="card">
+        <h3>Portal de Cursos Online</h3>
+        <p>Plataforma para upload e gestão de cursos online, com funcionalidades de avaliação e feedback dos alunos.</p>
+      </div>
+      <div class="card">
+        <h3>Ferramenta de Análise de Dados</h3>
+        <p>Ferramenta para análise de grandes volumes de dados com relatórios customizáveis e gráficos interativos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Vamos conversar sobre projetos, ideias ou oportunidades?</p>
+    <form action="https://formspree.io/f/xzzrdrea" method="POST">
+      <input type="text" name="nome" placeholder="Seu nome" required>
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <textarea name="mensagem" rows="5" placeholder="Sua mensagem" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+    <ul class="contato-list">
+      <li>📧 <a href="mailto:josehtl07@gmail.com">josehtl07@gmail.com</a></li>
+      <li>🔗 <a href="https://www.linkedin.com/in/jos%C3%A9-henrique-teixeira-115861362?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">LinkedIn</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 José Henrique Teixeira. Desenvolvido com dedicação e paixão pela tecnologia 🚀.</p>
+  </footer>
+
+  <script>
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+    toggleThemeBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        toggleThemeBtn.textContent = '🌙';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        toggleThemeBtn.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>

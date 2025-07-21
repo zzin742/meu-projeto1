@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel de Estoque</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1b1f27;
+      color: #fff;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* MENU LATERAL */
+    .sidebar {
+      width: 250px;
+      background-color: #141821;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border-right: 2px solid #292d36;
+    }
+    .sidebar h2 {
+      color: #00e0ff;
+      margin-bottom: 30px;
+    }
+    .sidebar button {
+      background-color: #00e0ff;
+      color: #000;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .sidebar button:hover {
+      background-color: #00bcd4;
+    }
+
+    /* PAINEL PRINCIPAL */
+    .main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .stats {
+      display: flex;
+      gap: 20px;
+    }
+    .card {
+      background: #292d36;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,224,255,0.1);
+      min-width: 180px;
+      text-align: center;
+    }
+    .card h3 {
+      margin: 0;
+      color: #00e0ff;
+      font-size: 18px;
+    }
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .form-area {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .form-area input {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #2f3545;
+      color: #fff;
+    }
+    .form-area button {
+      background: #00e0ff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .form-area input::placeholder {
+      color: #aaa;
+    }
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #444;
+    }
+    th {
+      background-color: #00e0ff;
+      color: #000;
+    }
+    .actions button {
+      margin: 0 3px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+    .add { background: #2ecc71; }
+    .remove { background: #e74c3c; }
+    .delete { background: #9b59b6; }
+    .search {
+      margin-left: auto;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-right: none;
+        border-bottom: 2px solid #292d36;
+      }
+
+      .sidebar h2 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .form-area {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form-area input,
+      .form-area button {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .search {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .search input {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      table {
+        font-size: 14px;
+      }
+
+      .actions button {
+        margin: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <div class="sidebar">
+    <h2>Estoque Pro</h2>
+    <button onclick="zerarEstoque()">Zerar Estoque</button>
+    <button onclick="salvarEstoque()">Salvar Estoque</button>
+    <button onclick="carregarEstoque()">Carregar Estoque</button>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main">
+    <div class="header">
+      <div class="stats">
+        <div class="card">
+          <h3>Produtos Cadastrados</h3>
+          <p id="totalProdutos">0</p>
+        </div>
+        <div class="card">
+          <h3>Quantidade Total</h3>
+          <p id="quantidadeTotal">0</p>
+        </div>
+      </div>
+      <div class="search">
+        <input type="text" id="buscaProduto" placeholder="🔍 Buscar produto..." onkeyup="filtrarTabela()" />
+      </div>
+    </div>
+
+    <div class="form-area">
+      <input type="text" id="nomeProduto" placeholder="Nome do Produto" />
+      <input type="number" id="quantidadeProduto" placeholder="Quantidade" />
+      <button onclick="adicionarProduto()">Adicionar</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaEstoque"></tbody>
+    </table>
+  </div>
+
+  <script>
+    let estoque = [];
+
+    function atualizarEstatisticas() {
+      document.getElementById('totalProdutos').textContent = estoque.length;
+      const totalQtd = estoque.reduce((soma, item) => soma + item.quantidade, 0);
+      document.getElementById('quantidadeTotal').textContent = totalQtd;
+    }
+
+    function renderizarTabela() {
+      const tbody = document.getElementById("tabelaEstoque");
+      tbody.innerHTML = "";
+      estoque.forEach((item, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${item.nome}</td>
+          <td>${item.quantidade}</td>
+          <td class="actions">
+            <button class="add" onclick="alterarQuantidade(${i}, 1)">+1</button>
+            <button class="remove" onclick="alterarQuantidade(${i}, -1)">-1</button>
+            <button class="delete" onclick="removerProduto(${i})">Excluir</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      atualizarEstatisticas();
+    }
+
+    function adicionarProduto() {
+      const nome = document.getElementById("nomeProduto").value.trim();
+      const quantidade = parseInt(document.getElementById("quantidadeProduto").value);
+      if (!nome || isNaN(quantidade) || quantidade <= 0) {
+        alert("Preencha nome e quantidade corretamente.");
+        return;
+      }
+      estoque.push({ nome, quantidade });
+      document.getElementById("nomeProduto").value = "";
+      document.getElementById("quantidadeProduto").value = "";
+      renderizarTabela();
+    }
+
+    function alterarQuantidade(index, valor) {
+      estoque[index].quantidade += valor;
+      if (estoque[index].quantidade < 0) estoque[index].quantidade = 0;
+      renderizarTabela();
+    }
+
+    function removerProduto(index) {
+      if (confirm("Deseja remover este produto?")) {
+        estoque.splice(index, 1);
+        renderizarTabela();
+      }
+    }
+
+    function filtrarTabela() {
+      const busca = document.getElementById("buscaProduto").value.toLowerCase();
+      const linhas = document.querySelectorAll("#tabelaEstoque tr");
+      linhas.forEach(linha => {
+        const nome = linha.children[0]?.textContent.toLowerCase() || "";
+        linha.style.display = nome.includes(busca) ? "" : "none";
+      });
+    }
+
+    function salvarEstoque() {
+      localStorage.setItem("estoque", JSON.stringify(estoque));
+      alert("Estoque salvo!");
+    }
+
+    function carregarEstoque() {
+      const dados = localStorage.getItem("estoque");
+      if (dados) {
+        estoque = JSON.parse(dados);
+        renderizarTabela();
+        alert("Estoque carregado.");
+      } else {
+        alert("Nenhum estoque salvo.");
+      }
+    }
+
+    function zerarEstoque() {
+      if (confirm("Deseja realmente apagar todo o estoque?")) {
+        estoque = [];
+        renderizarTabela();
+      }
+    }
+
+    carregarEstoque();
+  </script>
+</body>
+</html>

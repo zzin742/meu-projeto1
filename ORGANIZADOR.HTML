@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizador DP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 15px;
+    }
+
+    .tab-btn {
+      padding: 12px 25px;
+      border: none;
+      background: #fff;
+      color: #2980b9;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: #2980b9;
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-content {
+      display: none;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 0 auto 20px;
+      transition: all 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    input, select, button, textarea {
+      padding: 12px;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    button {
+      background: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #1abc9c;
+      transform: translateY(-2px);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: #ecf0f1;
+      margin: 12px 0;
+      padding: 15px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+    }
+
+    li:hover {
+      background: #f1f1f1;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: gray;
+      background-color: #d4edda;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar div {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+
+    .calendar div:hover {
+      background: #f1f1f1;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: auto;
+      padding: 20px;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      font-size: 14px;
+      transition: visibility 0.5s ease, opacity 0.5s ease;
+    }
+
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;} 
+      to {bottom: 30px; opacity: 1;}
+    }
+
+    @keyframes fadeout {
+      from {bottom: 30px; opacity: 1;}
+      to {bottom: 0; opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Organizador - Departamento Pessoal</h1>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('tarefas')">Tarefas</button>
+    <button class="tab-btn" onclick="showTab('rotina')">Rotina DP</button>
+    <button class="tab-btn" onclick="showTab('lembretes')">Lembretes</button>
+  </div>
+
+  <!-- Aba de Tarefas -->
+  <div id="tarefas" class="tab-content active">
+    <h2>Adicionar Nova Tarefa</h2>
+    <input type="text" id="taskName" placeholder="Descrição da tarefa">
+    <select id="taskCategory">
+      <option value="Pró-labore">Pró-labore</option>
+      <option value="Sem Movimento">Sem Movimento</option>
+      <option value="Empregada Doméstica">Empregada Doméstica</option>
+      <option value="Admissão">Admissão</option>
+      <option value="Rescisão">Rescisão</option>
+      <option value="Férias">Férias</option>
+      <option value="13º Salário">13º Salário</option>
+      <option value="Afastamento">Afastamento</option>
+      <option value="Homologação">Homologação</option>
+    </select>
+    <button onclick="addTask()">Adicionar</button>
+
+    <h2>Lista de Tarefas</h2>
+    <ul id="taskList"></ul>
+  </div>
+
+  <!-- Aba de Rotina DP -->
+  <div id="rotina" class="tab-content">
+    <h2>Calendário de Rotinas</h2>
+    <div class="calendar" id="calendar"></div>
+    <p id="eventInfo" style="margin-top: 20px; text-align: center; font-weight: bold;"></p>
+  </div>
+
+  <!-- Aba de Lembretes -->
+  <div id="lembretes" class="tab-content">
+    <h2>Lembretes Pessoais</h2>
+    <textarea id="lembretesText" rows="10" placeholder="Digite seus lembretes aqui..."></textarea>
+    <button onclick="salvarLembretes()">Salvar Lembretes</button>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <footer>
+    © José Luiz - 2025
+  </footer>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.className = "toast show";
+      setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+    }
+
+    function salvarTarefas() {
+      const tarefas = [];
+      document.querySelectorAll('#taskList li').forEach(li => {
+        tarefas.push({
+          text: li.querySelector('span').innerText,
+          concluida: li.classList.contains('done')
+        });
+      });
+      localStorage.setItem('tarefasDP', JSON.stringify(tarefas));
+    }
+
+    function carregarTarefas() {
+      const tarefas = JSON.parse(localStorage.getItem('tarefasDP') || '[]');
+      tarefas.forEach(t => addTask(t.text, t.concluida));
+    }
+
+    function addTask(nome = null, concluida = false) {
+      const name = nome || document.getElementById('taskName').value.trim();
+      const category = document.getElementById('taskCategory').value;
+      if (!name) return;
+
+      const list = document.getElementById('taskList');
+      const item = document.createElement('li');
+
+      item.innerHTML = `
+        <span><strong>${category}:</strong> ${name}</span>
+        <div>
+          ${!concluida ? '<button onclick="markDone(this)">Concluir</button>' : ''}
+          <button onclick="deleteTask(this)">Excluir</button>
+        </div>
+      `;
+      if (concluida) item.classList.add('done');
+      list.appendChild(item);
+
+      if (!nome) {
+        document.getElementById('taskName').value = '';
+        showToast("Tarefa adicionada!");
+      }
+      salvarTarefas();
+    }
+
+    function markDone(button) {
+      const li = button.closest('li');
+      li.classList.add('done');
+      button.remove();
+      salvarTarefas();
+    }
+
+    function deleteTask(button) {
+      const li = button.closest('li');
+      li.remove();
+      salvarTarefas();
+    }
+
+    const lembreteArea = document.getElementById('lembretesText');
+    lembreteArea.value = localStorage.getItem('lembretesDP') || '';
+
+    function salvarLembretes() {
+      localStorage.setItem('lembretesDP', lembreteArea.value);
+      showToast("Lembretes salvos!");
+    }
+
+    // Calendário
+    const eventos = {
+      7: "Gerar FGTS Doméstica",
+      15: "Pagar GPS Doméstica/Pró-labore",
+      30: "Enviar DCTFWeb Sem Movimento"
+    };
+
+    function gerarCalendario() {
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = "";
+      const dias = 30; // Simples, para exemplo
+      for (let i = 1; i <= dias; i++) {
+        const div = document.createElement('div');
+        div.textContent = i;
+        div.onclick = () => {
+          const info = eventos[i] || "Nenhuma rotina programada.";
+          document.getElementById('eventInfo').textContent = `Dia ${i}: ${info}`;
+        };
+        calendar.appendChild(div);
+      }
+    }
+
+    gerarCalendario();
+    carregarTarefas();
+  </script>
+</body>
+</html>

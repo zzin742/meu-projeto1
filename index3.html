@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DP FÁCIL - Entenda, pratique, evolua.</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- Login/Cadastro -->
+  <div class="flex items-center justify-center h-screen" id="auth-area">
+    <div class="bg-white p-8 rounded shadow w-full max-w-sm">
+      <h2 id="form-title" class="text-2xl font-bold mb-4">Login</h2>
+      <input type="email" id="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" />
+      <input type="password" id="password" placeholder="Senha" class="w-full mb-3 p-2 border rounded" />
+      <button onclick="handleAuth()" class="w-full bg-blue-700 text-white p-2 rounded">Entrar</button>
+      <p class="text-sm mt-4 text-center"> <span class="text-blue-600 cursor-pointer" onclick="toggleForm()">Criar conta</span></p>
+      <p id="mensagemErro" class="text-red-600 mt-2 text-sm text-center"></p>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal do site -->
+  <div id="site-content" style="display:none">
+    <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DP FÁCIL - Guia para Iniciantes em Departamento Pessoal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-blue-700 text-white py-8 text-center shadow-md">
+    <h1 class="text-5xl font-bold">DP FÁCIL</h1>
+    <p class="text-xl mt-2">Tudo que você precisa saber sobre Departamento Pessoal</p>
+  </header>
+
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-wrap justify-around py-3 text-blue-700 font-medium">
+        <a href="#introducao" class="hover:underline">Início</a>
+        <a href="#admissao" class="hover:underline">Admissão</a>
+        <a href="#folha" class="hover:underline">Folha</a>
+        <a href="#ferias" class="hover:underline">Férias</a>
+        <a href="#rescisao" class="hover:underline">Rescisão</a>
+        <a href="#encargos" class="hover:underline">Encargos</a>
+        <a href="#dicas" class="hover:underline">Dicas</a>
+        <a href="#quiz" class="hover:underline">Quiz</a>
+        <a href="#simulador" class="hover:underline">Simulador</a>
+
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-5xl mx-auto px-4 py-10 space-y-20">
+    <!-- Seções anteriores (introducao, admissao, folha, etc.) -->
+    <section id="introducao" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">O que é Departamento Pessoal?</h2>
+      <p class="text-lg leading-relaxed">O Departamento Pessoal é responsável pela administração dos funcionários dentro da empresa. Ele cuida desde a admissão até a demissão, passando pela folha de pagamento, férias, encargos e muito mais. Sua função principal é garantir que a empresa esteja cumprindo todas as leis trabalhistas.</p>
+    </section>
+
+    <section id="admissao" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">1. Processo de Admissão</h2>
+      <p class="text-lg leading-relaxed">A admissão é o processo de contratação de um novo colaborador. Envolve:</p>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Recolher documentos: RG, CPF, título de eleitor, comprovante de residência, carteira de trabalho, PIS, foto 3x4, entre outros.</li>
+        <li>Assinatura de contrato de trabalho.</li>
+        <li>Registro no eSocial e CAGED (se necessário).</li>
+        <li>Entrega de equipamentos e orientações iniciais.</li>
+      </ul>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/WaLLuWn4SnE?si=pWYaFxoVb7dfEw5u&amp;start=379" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-700 rounded">
+  <h3 class="text-xl font-semibold text-blue-700 mb-2">📌 Resumo Rápido</h3>
+  <ul class="list-disc ml-5 text-lg space-y-1">
+    <li>Documentos obrigatórios devem ser reunidos antes da contratação.</li>
+    <li>Contrato de trabalho precisa ser assinado antes do início das atividades.</li>
+    <li>Registro no eSocial é obrigatório para todas as admissões.</li>
+    <li>Equipamentos e treinamentos devem ser entregues no início do vínculo.</li>
+  </ul>
+</div>
+    </section>
+
+    <section id="folha" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">2. Folha de Pagamento</h2>
+      <p class="text-lg leading-relaxed">A folha de pagamento registra todos os valores devidos a um funcionário em determinado período. O processo envolve:</p>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Lançamento de salário, horas extras, adicionais noturnos, comissões e descontos.</li>
+        <li>Cálculo de INSS, FGTS, IRRF e outras obrigações legais.</li>
+        <li>Emissão de holerite para o colaborador.</li>
+        <li>Envio de informações ao eSocial.</li>
+      </ul>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/N4S2j_tE3R0?si=ibr0WnY5ClYZ_LPW&amp;start=4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-700 rounded">
+  <h3 class="text-xl font-semibold text-blue-700 mb-2">📌 Resumo Rápido</h3>
+  <ul class="list-disc ml-5 text-lg space-y-1">
+    <li>Folha inclui salários, adicionais e descontos legais.</li>
+    <li>INSS, FGTS e IRRF devem ser calculados corretamente.</li>
+    <li>O holerite precisa ser entregue ao colaborador.</li>
+    <li>Informações devem ser transmitidas via eSocial.</li>
+  </ul>
+</div>
+    </section>
+
+    <section id="ferias" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">3. Férias</h2>
+      <p class="text-lg leading-relaxed">O direito a férias é adquirido após 12 meses de trabalho. Veja como administrar esse processo:</p>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Cálculo das férias: salário + 1/3 constitucional.</li>
+        <li>Aviso de férias deve ser feito com antecedência mínima de 30 dias.</li>
+        <li>Pagamento deve ser feito até dois dias antes do início das férias.</li>
+        <li>Registro e envio ao eSocial.</li>
+      </ul>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/XWh885vHgos?si=hnvVk4I9MEEovM0E&amp;start=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-700 rounded">
+  <h3 class="text-xl font-semibold text-blue-700 mb-2">📌 Resumo Rápido</h3>
+  <ul class="list-disc ml-5 text-lg space-y-1">
+    <li>Férias são adquiridas após 12 meses de trabalho.</li>
+    <li>Devem ser avisadas com 30 dias de antecedência.</li>
+    <li>Pagamento deve ser feito até 2 dias antes do início.</li>
+    <li>1/3 constitucional deve ser incluído no cálculo.</li>
+  </ul>
+</div>
+    </section>
+
+     <section id="rescisao" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">4. Rescisão de Contrato</h2>
+      <p class="text-lg leading-relaxed">A rescisão é o encerramento do vínculo trabalhista. Pode ser por iniciativa do empregador, do empregado ou em comum acordo. Envolve:</p>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Pagamento de verbas rescisórias: saldo de salário, férias proporcionais, 13º salário proporcional, aviso prévio, entre outros.</li>
+        <li>Entrega do TRCT, guias do FGTS e seguro-desemprego.</li>
+        <li>Prazo de pagamento: até 10 dias corridos após o desligamento.</li>
+        <li>Registro da rescisão no eSocial.</li>
+      </ul>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/MWtkwDb3504?si=RXMCG0Upr1MzMBbU&amp;start=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-700 rounded">
+  <h3 class="text-xl font-semibold text-blue-700 mb-2">📌 Resumo Rápido</h3>
+  <ul class="list-disc ml-5 text-lg space-y-1">
+    <li>A rescisão pode ser por iniciativa do empregado ou empregador.</li>
+    <li>Verbas incluem: saldo de salário, férias, 13º, aviso, etc.</li>
+    <li>O pagamento deve ocorrer em até 10 dias corridos.</li>
+    <li>É obrigatório registrar a rescisão no eSocial.</li>
+  </ul>
+</div>
+    </section>
+
+    <section id="encargos" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">5. Encargos Trabalhistas</h2>
+      <p class="text-lg leading-relaxed">Encargos são os tributos e contribuições obrigatórias decorrentes do contrato de trabalho. Eles incluem:</p>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li><strong>INSS:</strong> Contribuição previdenciária que varia de acordo com a faixa salarial do colaborador.</li>
+        <li><strong>FGTS:</strong> Depósito mensal de 8% sobre o salário do empregado.</li>
+        <li><strong>IRRF:</strong> Imposto de Renda Retido na Fonte, conforme tabela da Receita Federal.</li>
+        <li>Recolhimentos via SEFIP, DCTFWeb, GPS e demais guias obrigatórias.</li>
+      </ul>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/T6j065C8_Gg?si=BmK6f-TD60aa6hTU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-700 rounded">
+  <h3 class="text-xl font-semibold text-blue-700 mb-2">📌 Resumo Rápido</h3>
+  <ul class="list-disc ml-5 text-lg space-y-1">
+    <li>Encargos são obrigações legais: INSS, FGTS e IRRF.</li>
+    <li>Devem ser recolhidos nos prazos corretos (via guias).</li>
+    <li>O não recolhimento gera multas e problemas fiscais.</li>
+    <li>Utilize softwares de DP para garantir conformidade.</li>
+  </ul>
+</div>
+
+    </section>
+
+    <section id="dicas" class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-3xl font-bold text-blue-700 mb-4">Dicas Importantes</h2>
+      <ul class="list-disc ml-6 space-y-2 text-lg">
+        <li>Organize os documentos dos colaboradores digitalmente.</li>
+        <li>Mantenha-se atualizado com as constantes mudanças na legislação trabalhista.</li>
+        <li>Use sistemas de DP e RH confiáveis para evitar erros e retrabalhos.</li>
+        <li>Planeje férias e rescisões com antecedência para cumprir os prazos legais.</li>
+        <li>Invista em treinamentos contínuos para dominar o eSocial e as ferramentas digitais.</li>
+      </ul>
+    </section>
+
+    <section id="simulador" class="bg-white rounded-xl shadow p-6">
+  <h2 class="text-3xl font-bold text-blue-700 mb-4">Simulador de Folha de Pagamento</h2>
+  <form id="formFolha" class="space-y-4">
+    <div>
+      <label class="block font-medium text-lg">Salário Bruto (R$)</label>
+      <input type="number" id="salarioBruto" class="w-full p-2 border rounded" required>
+    </div>
+    <div>
+      <label class="block font-medium text-lg">Horas Extras (R$)</label>
+      <input type="number" id="horasExtras" class="w-full p-2 border rounded" value="0">
+    </div>
+    <div>
+      <label class="block font-medium text-lg">Descontos (VT, VR, etc.) (R$)</label>
+      <input type="number" id="descontos" class="w-full p-2 border rounded" value="0">
+    </div>
+    <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded">Calcular</button>
+  </form>
+
+  <div id="resultadoFolha" class="mt-6 text-lg"></div>
+</section>
+
+    <!-- NOVA SEÇÃO DE QUIZ -->
+    <section id="quiz" class="bg-white rounded-xl shadow p-6">
+  <h2 class="text-3xl font-bold text-blue-700 mb-4">Quiz de Conhecimentos em Departamento Pessoal</h2>
+  <form id="quizForm" class="space-y-6 text-lg">
+
+    <div>
+      <p class="font-semibold">1. Qual documento NÃO é obrigatório na admissão de um colaborador?</p>
+      <label><input type="radio" name="q1" value="a" class="mr-2">RG</label><br>
+      <label><input type="radio" name="q1" value="b" class="mr-2">CPF</label><br>
+      <label><input type="radio" name="q1" value="c" class="mr-2">Título de eleitor</label><br>
+      <label><input type="radio" name="q1" value="d" class="mr-2">Certidão de nascimento</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">2. O pagamento das férias deve ser realizado:</p>
+      <label><input type="radio" name="q2" value="a" class="mr-2">No primeiro dia útil após o início</label><br>
+      <label><input type="radio" name="q2" value="b" class="mr-2">Até dois dias antes do início</label><br>
+      <label><input type="radio" name="q2" value="c" class="mr-2">Junto com o salário do mês</label><br>
+      <label><input type="radio" name="q2" value="d" class="mr-2">No último dia útil do mês</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">3. Qual é o percentual do FGTS sobre o salário?</p>
+      <label><input type="radio" name="q3" value="a" class="mr-2">5%</label><br>
+      <label><input type="radio" name="q3" value="b" class="mr-2">6%</label><br>
+      <label><input type="radio" name="q3" value="c" class="mr-2">8%</label><br>
+      <label><input type="radio" name="q3" value="d" class="mr-2">11%</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">4. Qual o prazo máximo para pagamento das verbas rescisórias?</p>
+      <label><input type="radio" name="q4" value="a" class="mr-2">5 dias úteis</label><br>
+      <label><input type="radio" name="q4" value="b" class="mr-2">7 dias corridos</label><br>
+      <label><input type="radio" name="q4" value="c" class="mr-2">10 dias corridos</label><br>
+      <label><input type="radio" name="q4" value="d" class="mr-2">15 dias corridos</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">5. O que deve ser pago no mês do 13º salário?</p>
+      <label><input type="radio" name="q5" value="a" class="mr-2">Apenas metade do salário</label><br>
+      <label><input type="radio" name="q5" value="b" class="mr-2">13º integral</label><br>
+      <label><input type="radio" name="q5" value="c" class="mr-2">1/3 do salário</label><br>
+      <label><input type="radio" name="q5" value="d" class="mr-2">INSS do mês seguinte</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">6. Qual desses eventos deve ser obrigatoriamente lançado no eSocial?</p>
+      <label><input type="radio" name="q6" value="a" class="mr-2">Compra de equipamentos</label><br>
+      <label><input type="radio" name="q6" value="b" class="mr-2">Férias de um funcionário</label><br>
+      <label><input type="radio" name="q6" value="c" class="mr-2">Troca de fornecedor</label><br>
+      <label><input type="radio" name="q6" value="d" class="mr-2">Troca de endereço da empresa</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">7. Qual é o valor do adicional de férias previsto na Constituição?</p>
+      <label><input type="radio" name="q7" value="a" class="mr-2">20%</label><br>
+      <label><input type="radio" name="q7" value="b" class="mr-2">25%</label><br>
+      <label><input type="radio" name="q7" value="c" class="mr-2">33,33%</label><br>
+      <label><input type="radio" name="q7" value="d" class="mr-2">50%</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">8. A DCTFWeb é uma obrigação acessória relacionada a:</p>
+      <label><input type="radio" name="q8" value="a" class="mr-2">Tributos federais</label><br>
+      <label><input type="radio" name="q8" value="b" class="mr-2">Impostos estaduais</label><br>
+      <label><input type="radio" name="q8" value="c" class="mr-2">Folha de ponto</label><br>
+      <label><input type="radio" name="q8" value="d" class="mr-2">FGTS</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">9. O que é SEFIP?</p>
+      <label><input type="radio" name="q9" value="a" class="mr-2">Sistema de folha de pagamento online</label><br>
+      <label><input type="radio" name="q9" value="b" class="mr-2">Sistema de recolhimento de encargos trabalhistas e previdenciários</label><br>
+      <label><input type="radio" name="q9" value="c" class="mr-2">Portal de admissão digital</label><br>
+      <label><input type="radio" name="q9" value="d" class="mr-2">Sistema eletrônico do eSocial</label>
+    </div>
+
+    <div>
+      <p class="font-semibold">10. Quem é responsável pelo recolhimento do INSS?</p>
+      <label><input type="radio" name="q10" value="a" class="mr-2">Somente o empregado</label><br>
+      <label><input type="radio" name="q10" value="b" class="mr-2">Somente o governo</label><br>
+      <label><input type="radio" name="q10" value="c" class="mr-2">Somente o contador</label><br>
+      <label><input type="radio" name="q10" value="d" class="mr-2">Empregador e empregado</label>
+    </div>
+
+    <button type="button" onclick="corrigirQuiz()" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow">Ver Resultado</button>
+  </form>
+
+  <div id="resultadoQuiz" class="mt-6 text-xl font-semibold text-green-700"></div>
+</section>
+  </main>
+
+  <button onclick="scrollToTop()" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300">↑ Topo</button>
+
+  <footer class="bg-blue-800 text-white py-6 text-center mt-20">
+    <p class="text-lg">&copy; 2025 DP FÁCIL - Desenvolvido por José Luiz</p>
+  </footer>
+
+  <script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function corrigirQuiz() {
+    const respostas = {
+      q1: { correta: "d", explicacao: "A certidão de nascimento não é obrigatória na admissão de um colaborador adulto, diferentemente de documentos como RG, CPF e CTPS." },
+      q2: { correta: "b", explicacao: "O pagamento das férias deve ser feito até dois dias antes do início, conforme a CLT." },
+      q3: { correta: "c", explicacao: "O FGTS corresponde a 8% do salário do trabalhador e deve ser depositado mensalmente pelo empregador." },
+      q4: { correta: "c", explicacao: "A legislação determina que as verbas rescisórias devem ser pagas em até 10 dias corridos após o desligamento." },
+      q5: { correta: "b", explicacao: "O 13º salário deve ser pago em duas parcelas, sendo a segunda até 20 de dezembro. O valor total equivale ao salário integral proporcional." },
+      q6: { correta: "b", explicacao: "Férias são eventos obrigatórios no eSocial e devem ser informadas com antecedência." },
+      q7: { correta: "c", explicacao: "O adicional de férias é de 1/3 do salário normal, ou seja, 33,33%, conforme a Constituição Federal." },
+      q8: { correta: "a", explicacao: "A DCTFWeb é usada para declarar e recolher tributos federais decorrentes da folha de pagamento." },
+      q9: { correta: "b", explicacao: "SEFIP é o Sistema de Recolhimento do FGTS e de Informações à Previdência Social." },
+      q10: { correta: "d", explicacao: "O INSS é recolhido tanto pelo empregador (parte patronal) quanto pelo empregado (descontado em folha)." }
+    };
+
+    let acertos = 0;
+    const resultado = document.getElementById("resultadoQuiz");
+    resultado.innerHTML = "";
+
+    Object.keys(respostas).forEach((q, i) => {
+      const selecionada = document.querySelector(`input[name="${q}"]:checked`);
+      const correta = respostas[q].correta;
+      const explicacao = respostas[q].explicacao;
+
+      const container = document.querySelector(`input[name="${q}"]`).closest("div");
+      const paragrafo = container.querySelector("p");
+      const feedback = document.createElement("div");
+      feedback.classList.add("mt-2", "p-3", "rounded-lg", "text-base");
+
+      if (selecionada && selecionada.value === correta) {
+        acertos++;
+        feedback.classList.add("bg-green-100", "text-green-800");
+        feedback.textContent = `✅ Correto! ${explicacao}`;
+      } else {
+        feedback.classList.add("bg-red-100", "text-red-800");
+        const respostaCorretaTexto = container.querySelector(`input[value="${correta}"]`).parentElement.textContent;
+        feedback.innerHTML = `❌ Errado. A resposta correta é: <strong>${respostaCorretaTexto}</strong><br>${explicacao}`;
+      }
+
+      container.appendChild(feedback);
+    });
+
+    resultado.innerHTML = `<p class="text-xl font-bold mt-4">Você acertou <span class="text-blue-700">${acertos}</span> de 10 perguntas.</p>`;
+    resultado.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
+<script>
+  document.getElementById("formFolha").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const salarioBruto = parseFloat(document.getElementById("salarioBruto").value);
+    const horasExtras = parseFloat(document.getElementById("horasExtras").value);
+    const descontos = parseFloat(document.getElementById("descontos").value);
+
+    const baseINSS = salarioBruto + horasExtras;
+    let inss = 0;
+
+    if (baseINSS <= 1412) inss = baseINSS * 0.075;
+    else if (baseINSS <= 2666.68) inss = baseINSS * 0.09 - 21.18;
+    else if (baseINSS <= 4000.03) inss = baseINSS * 0.12 - 101.18;
+    else if (baseINSS <= 7786.02) inss = baseINSS * 0.14 - 181.18;
+    else inss = 908.86;
+
+    const fgts = baseINSS * 0.08;
+
+    // IRRF simplificado
+    let irrf = 0;
+    const baseIR = baseINSS - inss;
+    if (baseIR > 2112) {
+      if (baseIR <= 2826.65) irrf = baseIR * 0.075 - 158.4;
+      else if (baseIR <= 3751.05) irrf = baseIR * 0.15 - 370.4;
+      else if (baseIR <= 4664.68) irrf = baseIR * 0.225 - 651.73;
+      else irrf = baseIR * 0.275 - 884.96;
+    }
+
+    const liquido = baseINSS - inss - irrf - descontos;
+
+    document.getElementById("resultadoFolha").innerHTML = `
+      <p><strong>INSS:</strong> R$ ${inss.toFixed(2)}</p>
+      <p><strong>FGTS (a cargo da empresa):</strong> R$ ${fgts.toFixed(2)}</p>
+      <p><strong>IRRF:</strong> R$ ${irrf.toFixed(2)}</p>
+      <p><strong>Salário Líquido:</strong> <span class="text-green-700 font-bold">R$ ${liquido.toFixed(2)}</span></p>
+    `;
+  });
+</script>
+
+</body>
+</html>
+
+  </div>
+
+  <!-- Firebase e Autenticação -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      setPersistence,
+      browserSessionPersistence
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDaiF9DKjJy0gXzl8M8ZgbUMrVxWUyZ0U",
+      authDomain: "dp---facil.firebaseapp.com",
+      projectId: "dp---facil",
+      storageBucket: "dp---facil.appspot.com",
+      messagingSenderId: "557680534646",
+      appId: "1:557680534646:web:xxxxxxx"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let isLogin = true;
+    window.toggleForm = function () {
+      isLogin = !isLogin;
+      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Cadastrar';
+      document.querySelector('button').innerText = isLogin ? 'Entrar' : 'Cadastrar';
+      document.querySelector('span.text-blue-600').innerText = isLogin ? 'Criar conta' : 'Já tem conta? Entrar';
+      document.getElementById("mensagemErro").innerText = "";
+    };
+
+    window.handleAuth = async function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const erroEl = document.getElementById("mensagemErro");
+      erroEl.innerText = "";
+
+      const errosFirebase = {
+        "auth/email-already-in-use": "Este e-mail já está em uso.",
+        "auth/invalid-email": "E-mail inválido.",
+        "auth/weak-password": "A senha deve ter pelo menos 6 caracteres.",
+        "auth/wrong-password": "Senha incorreta.",
+        "auth/user-not-found": "Usuário não encontrado.",
+        "auth/too-many-requests": "Muitas tentativas. Tente novamente mais tarde."
+      };
+
+      try {
+        await setPersistence(auth, browserSessionPersistence);
+
+        let userCredential;
+        if (isLogin) {
+          userCredential = await signInWithEmailAndPassword(auth, email, password);
+        } else {
+          userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        }
+
+        window.location.reload();
+      } catch (error) {
+        const mensagem = errosFirebase[error.code] || "Erro ao autenticar. Tente novamente.";
+        erroEl.innerText = mensagem;
+      }
+    };
+
+    window.logout = function () {
+      signOut(auth);
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("auth-area").style.display = "none";
+        document.getElementById("site-content").style.display = "block";
+      } else {
+        document.getElementById("auth-area").style.display = "flex";
+        document.getElementById("site-content").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
