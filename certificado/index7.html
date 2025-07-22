@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Certificados</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      color: #00bcd4;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .certificado {
+      background-color: #1f1f1f;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .certificado:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+    }
+    .certificado a {
+      display: block;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .certificado img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .certificado a:hover img {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <h1> Meus Certificados</h1>
+  <div class="container">
+    <div class="certificado">
+      <a href="simples.pdf" target="_blank">
+        <img src="CURSO1.jpg" alt="Certificado 1">
+      </a>
+    </div>
+    <div class="certificado">
+      <a href="https://www.even3.com.br/documentos/imprimir?i=28421088.05551558.5.8.80253883666566868&cc=686C822F-6CE3-4623-88D1-0BF803E6BE71" target="_blank">
+        <img src="CURSO2.jpg" alt="Certificado 2">
+      </a>
+    </div>
+    <div class="certificado">
+      <a href="/UC-cef2375c-7406-4463-88c0-d1d7c62129c3.pdf" target="_blank">
+        <img src="CURSO3.jpg" alt="Certificado 3">
+      </a>
+    </div>
+    <div class="certificado">
+      <a href="https://hermes.dio.me/certificates/QVG116LB.pdf" target="_blank">
+        <img src="CURSO4.jpg" alt="Certificado 4">
+      </a>
+    </div>
+    <div class="certificado">
+      <a href="https://hermes.dio.me/certificates/1ILZI3TU.pdf" target="_blank">
+        <img src="CURSO5.jpg" alt="Certificado 5">
+      </a>
+    </div>
+    <!-- Substitua os links acima pelos URLs corretos dos certificados PDF -->
+  </div>
+</body>
+</html>
